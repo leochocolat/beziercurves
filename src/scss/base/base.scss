@@ -9,3 +9,82 @@ body {
 
   overflow: hidden;
 }
+
+
+.animation-wrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  display: none;
+
+  width: 50%;
+  height: 100vh;
+
+  background-color: black;
+}
+
+.netflix-animation {
+  position:absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  width: 140px;
+  height: 250px;
+
+  margin: auto;
+
+  // background: linear-gradient(
+  //   90deg,
+  //   #b1060e 0,
+  //   #b1060e 50px,
+  //   transparent 50px,
+  //   transparent 90px,
+  //   #b1060e 90px,
+  //   #b1060e 140px
+  // );
+
+  .left,
+  .middle,
+  .right {
+    content: '';
+    display: block;
+    position: absolute;
+  }
+  
+  .middle {
+    width: 50px;
+    height: 250px;
+
+    top: 0;
+    // left: 45px;
+    left: 0;
+
+    background-color: #e50914;
+    box-shadow: 0 0 30px black;
+
+    transform: skewX(19.6deg);
+  }
+
+  .left, .right {
+    position: absolute;
+    bottom: 0;
+
+    width: 50px;
+    height: 250px;
+
+    background-color: #e50914;
+  }
+
+  .left {
+    left: 0;
+    right: auto;
+  }
+
+  .right {
+    right: 0;
+    left: auto;
+  }
+}

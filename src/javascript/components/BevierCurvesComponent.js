@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { TweenLite } from 'gsap/TweenLite';
+import { TweenLite, TimelineLite, Linear } from 'gsap';
 import * as dat from 'dat.gui';
 
 
@@ -41,7 +41,7 @@ class BezierCurvesComponent {
             allowBallAnimation: false,
             allowBallXAnimation: false,   
             clear: true,
-            shccAnim: false
+            anim: false
         };
 
 
@@ -58,7 +58,7 @@ class BezierCurvesComponent {
         gui.add(this._settings, 'allowBallAnimation');
         gui.add(this._settings, 'drawCurve');
         gui.add(this._settings, 'allowBallXAnimation');
-        gui.add(this._settings, 'shccAnim');
+        gui.add(this._settings, 'anim');
 
         this._init();
         this._setup();
@@ -86,6 +86,19 @@ class BezierCurvesComponent {
         this._initControlPoints();
         this._initCurves();
         this._setupEventListener();
+        this._setupNetflixAnimation();
+    }
+
+    _setupNetflixAnimation() {
+        let left = document.querySelector('.left');
+        let middle = document.querySelector('.middle');
+        let right = document.querySelector('.right');
+
+
+        this.timeline = new TimelineLite({ paused: true });
+        this.timeline.fromTo(left, 1, { height: 0 }, { height: 250, ease: Linear.easeNone }, 0);
+        this.timeline.fromTo(middle, 1, { height: 0 }, { height: 250, left: 45, ease: Linear.easeNone });
+        this.timeline.fromTo(right, 1, { height: 0 }, { height: 250, ease: Linear.easeNone });
     }
 
     _createLandMarks() {
@@ -444,21 +457,15 @@ class BezierCurvesComponent {
     _animateShcc() {
         if (!this._ball) return;
 
-        let anim = document.querySelector('.anim-shcc');
+        let anim = document.querySelector('.animation-wrapper');
 
-        let element = document.querySelectorAll('.title');
-        let el = element[0];
-        let el1 = element[1];
-        let cover = document.querySelector('.coverRed');
         let animValue = (this._ball.x - 100) / 600;
+        this.timeline.progress(animValue);
 
-        el.style.transform = `translate(${animValue * 50}px, -50%)`;
-        el1.style.transform = `translate(${animValue * 50}px, -50%)`;
-        cover.style.width = `${100 - animValue * 100}vw`;
 
-        if (this._settings.shccAnim == false) {
+        if (this._settings.anim == false) {
             anim.style.display = 'none';
-        } else if (this._settings.shccAnim == true) {
+        } else if (this._settings.anim == true) {
             anim.style.display = 'block';
         }
     }
